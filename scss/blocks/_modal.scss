@@ -1,0 +1,120 @@
+
+/* Rest info */
+.rest-info {
+  padding: 20px;
+  background:linear-gradient(110deg, #09203f 65%, #537895 70%);;
+  color: #fff;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 200px;
+  min-height: 200px;
+  z-index: 666;
+  display: none;
+}
+
+.rest-info-show {
+  display: flex;
+}
+
+.rest-in-div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: start;
+  padding: 20px;
+}
+
+.rest-back {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.411);
+  z-index: 444;
+  display: none;
+}
+
+.rest-back-show {
+  display: block;
+}
+
+.left-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+
+.rest-img {
+  width: 300px !important;
+  height: auto !important;
+  margin-bottom: 10px !important;
+
+}
+
+.rest-rate {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.rest-janr {
+  width: 100% !important;
+  margin-bottom: 10px;
+}
+
+.rest-desc {
+  margin-bottom: 10px;
+
+}
+
+.rest-btns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.left-title {
+  color: #f5c518;
+}
+
+.second-star {
+  margin-right: 5px
+}
+
+.rest-janr {
+  margin-top: 30px;
+  font-size: 20px;
+}
+
+.rest-btns {
+  margin-top: 50px;
+}
+
+.rest-btns button {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+}
+
+.rest-btns button a {
+  text-decoration: none;
+  color: #000;
+}
+
+.rest-btns button:first-child {
+  background-color: #f5c518;
+  color: #000;
+  font-weight: 600;
+  transition: all ease .4s;
+}
+
+.rest-btns button:last-child {
+  background-color: #041c2c;
+  font-weight: 600;
+  color: #fff;
+}
+
+.rest-btns button:hover {
+  opacity: .5;
+}

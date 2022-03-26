@@ -1,0 +1,64 @@
+.carusel {
+  overflow: hidden !important;
+}
+.box222 {
+  width: 300px !important;
+  height: auto;
+}
+.swiper {
+  width: 1300px;
+}
+.caruserlOne {
+  margin-right: 20px !important;
+  width: 320px !important;
+}
+
+.swiper-button-prev {
+    font-family: swiper-icons;
+    font-size: var(--swiper-navigation-size);
+    text-transform: none!important;
+    letter-spacing: 0;
+    text-transform: none;
+    font-variant: initial;
+    line-height: 1;
+}
+
+.carusel-absalut {
+  position: relative;
+  top: -220px !important;
+}
+
+.swiper-button-prev {
+  position: absolute; 
+  left: 75px !important;
+  color: #000;
+  transform: scale(1);
+  animation: leftbtn 2s linear infinite;
+  transition: all 0.2s linear;
+
+  &:hover {
+    color: red;
+  }  
+}
+
+
+.swiper-button-next {
+  position: absolute;
+  right: 50px !important;
+  color: #000;
+  animation: leftbtn 2s linear infinite;
+  transition: all 0.5s linear;
+
+  &:hover {
+    color: red;
+  }
+}
+
+@keyframes leftbtn {
+  0% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(1.2);
+  }
+}
