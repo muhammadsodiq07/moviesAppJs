@@ -190,7 +190,7 @@ page__five.addEventListener("click", () => {
 
 
 page__hunder.addEventListener("click", () => {
-  for (let i = 445; i <= 70000; i++) {
+  for (let i = 445; i <= 3000; i++) {
       
   let li = document.createElement("li");
   li.className = 'swiper-slide featured__item caruserlOne';

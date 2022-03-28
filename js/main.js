@@ -3,8 +3,18 @@ let ulListDrama = document.querySelector('.drama__list');
 let ulListExclusive = document.querySelector('.exclusive__list');
 let elModalBnt = document.querySelectorAll(".featured__btn");
 const Wishlist = document.getElementById('wishlist');
+let restInfo = document.querySelector(".rest-info");
+let restInfoBack = document.querySelector(".rest-back");
 const Form = document.getElementById('Form');
 const Search = document.getElementById('SearchInput');
+const elSearchBox = document.querySelector('#searchbox');
+const elSearch = document.querySelector('#id-search');
+const elIsearch = document.querySelector('#id-Isearch');
+const elSearchBtn = document.querySelector('#id-searchBtn');
+const elSearchMain = document.querySelector('#search-main');
+const Title = document.getElementById('MovieTitle');
+const secondTitle = document.getElementById('secondTitle');
+const Hero = document.getElementById('hero');
 
 for (let i = 25; i <= 200; i++) {
 
@@ -72,36 +82,7 @@ ulListDrama.appendChild(li);
 }
 
 
-// for (let i = 344; i <= 346; i++) {
 
-//   let li = document.createElement("li");
-//   li.className = 'featured__item';
-//   li.innerHTML = `
-//   <div class="featured__box  me-5">
-//   <div class="exclusive__boximg">
-//   <button class="btn featured__btn">
-//   <i class='bx bxs-heart featured__heartIcon'></i>
-//   </button>
-//   <div class="play">
-//   <i class='bx bx-play-circle playIcon' ></i>
-//   </div>
-//   <a href = "https://youtu.be/SZhncuQSnaI">
-//   <img class="exclusive__img" src=${movies[i].youtubePoster} alt="">
-//   </a>
-// </div>
-// <p class="featured__p mb-2 mt-2"><b>${movies[i].title}</b></p> 
-// </div>
-// </div>
-//   `
-
-// ulListExclusive.appendChild(li); 
-// }
-
-
-
-
-let restInfo = document.querySelector(".rest-info");
-let restInfoBack = document.querySelector(".rest-back");
 
 // ?Adding Modal Window
 function moreInfo(imId) {
@@ -204,9 +185,7 @@ featured__heartIcon.forEach(item => {
 
 // FILTER PART ------
 
-const Title = document.getElementById('MovieTitle');
-const secondTitle = document.getElementById('secondTitle');
-const Hero = document.getElementById('hero');
+
 
 Search.addEventListener('keyup', filter);
 
@@ -241,13 +220,6 @@ function filter(e){
 
 
 // global search
-
-
-const elSearchBox = document.querySelector('#searchbox');
-const elSearch = document.querySelector('#id-search');
-const elIsearch = document.querySelector('#id-Isearch');
-const elSearchBtn = document.querySelector('#id-searchBtn');
-const elSearchMain = document.querySelector('#search-main');
 
 
 function funMain(e) {
