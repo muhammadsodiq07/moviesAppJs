@@ -614,33 +614,50 @@ p {
   z-index: 100;
 }
 
-.pagination__div {
-  padding-top: 30px;
+/* ?Pagination Buttons */
+.pagination-buttons {
+  position: relative;
+  top: -1480px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  gap: 5px;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
 }
 
-.pagnitons {
-  border-radius: 50%;
-  border: 1px solid transparent;
+.page-btn {
+  padding: 5px 10px;
+  cursor: pointer;
   background-color: #BE123C;
+  border: none;
   color: #fff;
+  font-size: 17px;
+  -webkit-transition: all .4s ease;
+  transition: all .4s ease;
+  border-radius: 3px;
 }
 
-.pagnitons:hover {
-  color: #fff;
-  background-color: #111827;
+.page-btn:hover {
+  opacity: .6;
 }
 
-.dotsss {
-  font-size: 40px;
+.page-btn[class$="-page"] {
+  background: #134772;
+}
+
+.page-btn.active {
+  background-color: #f5c518;
+  color: #000;
+}
+
+.page-btn:disabled {
+  background-color: #e7e7e7;
+  cursor: not-allowed;
 }
 
 /* Rest info */

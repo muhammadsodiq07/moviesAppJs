@@ -47,11 +47,6 @@
   background: rgba(243, 244, 246, 0.5);
   backdrop-filter: blur(2px);
   border-radius: 50%;
-  
-  
-  &:hover {
-    // color: rgb(230, 62, 62);
-  }
 }
 
 .form-control {
@@ -177,26 +172,66 @@
 }
 
 
-.pagination__div {
-  padding-top: 30px;
+// .pagination__div {
+//   padding-top: 30px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// }
+
+// .pagnitons {
+//   border-radius: 50%;
+//   border: 1px solid transparent;
+//   background-color: #BE123C;
+//   color: #fff;
+
+//   &:hover {
+//     color: #fff;
+//     background-color: #111827;
+//   }
+// }
+
+// .dotsss {
+//   font-size: 40px;
+// }
+
+
+/* ?Pagination Buttons */
+.pagination-buttons {
+  position: relative;
+  top: -1480px;
   display: flex;
   align-items: center;
+  gap: 5px;
   justify-content: center;
 }
 
-.pagnitons {
-  border-radius: 50%;
-  border: 1px solid transparent;
+.page-btn {
+  padding: 5px 10px;
+  cursor: pointer;
   background-color: #BE123C;
+  border: none;
   color: #fff;
-
-  &:hover {
-    color: #fff;
-    background-color: #111827;
-  }
+  font-size: 17px;
+  transition: all .4s ease;
+  border-radius: 3px;
 }
 
-.dotsss {
-  font-size: 40px;
+.page-btn:hover {
+  opacity: .6;
+}
+
+.page-btn[class$="-page"] {
+  background: #134772;
+}
+
+.page-btn.active {
+  background-color: #f5c518;
+  color: #000;
+}
+
+.page-btn:disabled {
+  background-color: rgb(231, 231, 231);
+  cursor: not-allowed;
 }
 

@@ -6,12 +6,12 @@ const Wishlist = document.getElementById('wishlist');
 let restInfo = document.querySelector(".rest-info");
 let restInfoBack = document.querySelector(".rest-back");
 const Form = document.getElementById('Form');
-const Search = document.getElementById('SearchInput');
 const elSearchBox = document.querySelector('#searchbox');
 const elSearch = document.querySelector('#id-search');
 const elIsearch = document.querySelector('#id-Isearch');
 const elSearchBtn = document.querySelector('#id-searchBtn');
 const elSearchMain = document.querySelector('#search-main');
+const Search = document.getElementById('SearchInput');
 const Title = document.getElementById('MovieTitle');
 const secondTitle = document.getElementById('secondTitle');
 const Hero = document.getElementById('hero');
@@ -164,14 +164,7 @@ function Addwatch(id){
     }
 })
 
-const removeBtn = document.querySelectorAll('.remove-btn');
 
-removeBtn.forEach(item => {
-  item.addEventListener('click', () =>{
-    item.parentNode.parentNode.remove();
-  })
-})
-}
 
 const featured__heartIcon = document.querySelectorAll(".featured__heartIcon");
 
@@ -181,7 +174,19 @@ featured__heartIcon.forEach(item => {
   });
 });
 
+const removeBtn = document.querySelectorAll('.remove-btn');
 
+removeBtn.forEach(item => {
+  item.addEventListener('click', () =>{
+    item.parentNode.parentNode.remove();
+
+    featured__heartIcon.forEach(item => {
+        item.style.color = "white";
+    });
+    
+  })
+})
+}
 
 // FILTER PART ------
 
@@ -220,7 +225,6 @@ function filter(e){
 
 
 // global search
-
 
 function funMain(e) {
   let a = e.path[1].id
@@ -316,6 +320,765 @@ elIsearch.addEventListener('keyup', (e)=> {
 
 
 
+// ?Pagination Buttons
+
+
+
+const pageNumbers = (total, max, current) => {
+  const half = Math.round(max / 2);
+  let to = max;
+  if (current + half >= total) {
+    to = total;
+  } else if (current > half) {
+    to = current + half;
+  }
+
+  let from = to - max;
+
+  return Array.from({ length: max }, (_, i) => i + 1 + from);
+};
+
+function PaginationButtons(totalPages, maxPageVisible = 10, currentPage = 1) {
+  let pages = pageNumbers(totalPages, maxPageVisible, currentPage);
+  let currentPageBtn = null;
+  const buttons = new Map();
+  const fragment = document.createDocumentFragment();
+  const paginationButtonsContainer = document.createElement("div");
+  paginationButtonsContainer.className = "pagination-buttons";
+
+  const disabled = {
+    start: () => pages[0] === 1,
+    prev: () => currentPage === 1,
+    end: () => pages.slice(-1)[0] === totalPages,
+    next: () => currentPage === totalPages,
+  }
+let sum = 0
+  const createAndSetupButton = (label = "", cls = "", disabled = false, handleClick = () => {}) => {
+    const button = document.createElement("button");
+    button.textContent = label;
+    button.className = `page-btn${cls} one${sum++}`;
+    button.disabled = disabled;
+    button.addEventListener('click', event => {
+      handleClick(event)
+      this.update()
+      paginationButtonsContainer.value = currentPage
+      paginationButtonsContainer.dispatchEvent(new Event('change'))
+    })
+
+    return button;
+  };
+
+  const onPageButtonClick = e => currentPage = Number(e.currentTarget.textContent)
+
+  const onPageButtonUpdate = index => btn => {
+    btn.textContent = pages[index];
+
+    if (pages[index] === currentPage) {
+      currentPageBtn.classList.remove('active');
+      btn.classList.add('active');
+      currentPageBtn = btn;
+      currentPageBtn.focus();
+    }
+  }
+
+  buttons.set(createAndSetupButton("start", " start-page", disabled.start(), () => currentPage = 1),
+    (btn) => btn.disabled = disabled.start()
+  );
+
+  buttons.set(createAndSetupButton("prev", " prev-page", disabled.prev(), () => currentPage = -1),
+    (btn) => btn.disabled = disabled.prev()
+  );
+
+  pages.forEach((pageNumber, index) => {
+    const isCurrentPage = pageNumber === currentPage;
+    const button = createAndSetupButton(pageNumber, isCurrentPage ? " active" : "", false, onPageButtonClick);
+    
+    if (isCurrentPage) {
+      currentPageBtn = button
+    }
+
+    buttons.set(button, onPageButtonUpdate(index));
+  });
+
+  buttons.set(createAndSetupButton("next", " next-page", disabled.next(), () => currentPage += 1),
+    (btn) => btn.disabled = disabled.next()
+  );
+
+  buttons.set(createAndSetupButton("end", " end-page", disabled.end(), () => currentPage = totalPages),
+    (btn) => btn.disabled = disabled.end()
+  );
+
+  buttons.forEach((_, btn) => fragment.appendChild(btn));
+
+  this.render = (container = document.body) => {
+    paginationButtonsContainer.appendChild(fragment)
+    container.appendChild(paginationButtonsContainer);
+  };
+
+  this.update = (newPageNumber = currentPage) => {
+    currentPage = newPageNumber;
+    pages = pageNumbers(totalPages, maxPageVisible, currentPage);
+    buttons.forEach((updateButton, button) => updateButton(button))
+  }
+
+  this.onChange = (handler) => {
+    paginationButtonsContainer.addEventListener('change', handler)
+  }
+}
+
+const paginationButtons = new PaginationButtons(100);
+
+paginationButtons.render();
+// paginationButtons.update(12);
+paginationButtons.onChange(e => {
+  console.log(e.target.value);
+})
+
+// First Page
+let one1 = document.querySelector('.one2')
+
+let firstArray = movies.filter((movie,index) => {
+  return  index >= 250 && index < 282
+})
+
+one1.addEventListener('click', () => {
+  console.log('qwerty');
+  ulListDrama.innerHTML = ''
+  firstArray.forEach(element => {
+    console.log(movies);
+    let li = document.createElement("li");
+    // li.className = 'featured__item';
+    li.classList.add("featured__item");
+    li.innerHTML = `
+    <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${element.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${element.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+  <p class="featured__p mb-2"><b>${element.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${element.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${element.categories} </span>
+  <button onclick="moreInfo('${element.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+    `
+  
+  ulListDrama.appendChild(li); 
+  })
+})
+
+
+// SecondPage
+let one2 = document.querySelector('.one3')
+
+let secondArray = movies.filter((movie,index) => {
+  return index >= 300 && index < 330
+})
+
+one2.addEventListener('click', () => {
+  ulListDrama.innerHTML = ''
+  secondArray.forEach(element => {
+    let li = document.createElement("li");
+    // li.className = 'featured__item';
+    li.classList.add("featured__item");
+    li.innerHTML = `
+    <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${element.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${element.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+  <p class="featured__p mb-2"><b>${element.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${element.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${element.categories} </span>
+  <button onclick="moreInfo('${element.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+    `
+  
+  ulListDrama.appendChild(li); 
+  })
+})
+
+// Third Page
+let one3 = document.querySelector('.one4')
+
+let thirdArray = movies.filter((movie,index) => {
+  return index >= 331 && index < 360
+})
+
+one3.addEventListener('click', () => {
+  ulListDrama.innerHTML = ''
+  thirdArray.forEach(element => {
+    let li = document.createElement("li");
+    // li.className = 'featured__item';
+    li.classList.add("featured__item");
+    li.innerHTML = `
+    <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${element.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${element.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+  <p class="featured__p mb-2"><b>${element.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${element.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${element.categories} </span>
+  <button onclick="moreInfo('${element.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+    `
+  
+  ulListDrama.appendChild(li); 
+  })
+})
+
+// Four Page
+let one4 = document.querySelector('.one5')
+
+let fourthArray = movies.filter((movie,index) => {
+  return index >= 361 && index < 390
+})
+
+one4.addEventListener('click', () => {
+  ulListDrama.innerHTML = ''
+  fourthArray.forEach(element => {
+    let li = document.createElement("li");
+    // li.className = 'featured__item';
+    li.classList.add("featured__item");
+    li.innerHTML = `
+    <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${element.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${element.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+  <p class="featured__p mb-2"><b>${element.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${element.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${element.categories} </span>
+  <button onclick="moreInfo('${element.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+    `
+  
+  ulListDrama.appendChild(li); 
+  })
+})
+
+// Five Page
+let one5 = document.querySelector('.one6')
+
+let fifthArray = movies.filter((movie_,index) => {
+  return index >= 390 && index < 430
+})
+
+one5.addEventListener('click', () => {
+  ulListDrama.innerHTML = ''
+  fifthArray.forEach(element => {
+    let li = document.createElement("li");
+    // li.className = 'featured__item';
+    li.classList.add("featured__item");
+    li.innerHTML = `
+    <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${element.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${element.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+  <p class="featured__p mb-2"><b>${element.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${element.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${element.categories} </span>
+  <button onclick="moreInfo('${element.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+    `
+  
+  ulListDrama.appendChild(li); 
+  })
+})
+
+// six Page
+let one6 = document.querySelector('.one7')
+
+let sixthArray = movies.filter((movie,index) => {
+  return index >= 431 && index < 460
+})
+
+one6.addEventListener('click', () => {
+  ulListDrama.innerHTML = ''
+  sixthArray.forEach(element => {
+    let li = document.createElement("li");
+    // li.className = 'featured__item';
+    li.classList.add("featured__item");
+    li.innerHTML = `
+    <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${element.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${element.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+  <p class="featured__p mb-2"><b>${element.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${element.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${element.categories} </span>
+  <button onclick="moreInfo('${element.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+    `
+  
+  ulListDrama.appendChild(li); 
+  })
+})
+
+// seven Page
+let one7 = document.querySelector('.one8')
+
+let seventhArray = movies.filter((movie,index) => {
+  return movie >= 480 && index < 500
+})
+
+one7.addEventListener('click', () => {
+  console.log('qwerty');
+  ulListDrama.innerHTML = ''
+  seventhArray.forEach(element => {
+    let li = document.createElement("li");
+    // li.className = 'featured__item';
+    li.classList.add("featured__item");
+    li.innerHTML = `
+    <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${element.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${element.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+  <p class="featured__p mb-2"><b>${element.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${element.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${element.categories} </span>
+  <button onclick="moreInfo('${element.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+    `
+  ulListDrama.appendChild(li); 
+  })
+})
+
+// eight Page
+let one8 = document.querySelector('.one9')
+
+let eighthArray = movies.filter((movie,index) => {
+  return index >= 491 && index < 530
+})
+
+one8.addEventListener('click', () => {
+  ulListDrama.innerHTML = ''
+  eighthArray.forEach(element => {
+    let li = document.createElement("li");
+    // li.className = 'featured__item';
+    li.classList.add("featured__item");
+    li.innerHTML = `
+    <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${element.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${element.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+  <p class="featured__p mb-2"><b>${element.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${element.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${element.categories} </span>
+  <button onclick="moreInfo('${element.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+    `
+  
+  ulListDrama.appendChild(li); 
+  })
+})
+
+// nine Page
+let one9 = document.querySelector('.one10')
+
+let ninethArray = movies.filter((movie,index) => {
+  return index >= 531 && index < 560
+})
+
+one9.addEventListener('click', () => {
+  ulListDrama.innerHTML = ''
+  ninethArray.forEach(element => {
+    let li = document.createElement("li");
+    // li.className = 'featured__item';
+    li.classList.add("featured__item");
+    li.innerHTML = `
+    <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${element.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${element.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+  <p class="featured__p mb-2"><b>${element.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${element.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${element.categories} </span>
+  <button onclick="moreInfo('${element.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+    `
+  
+  ulListDrama.appendChild(li); 
+  })
+})
+
+// nine Page
+let ten = document.querySelector('.one11')
+
+let tenthArray = movies.filter((movie,index) => {
+  return index >= 561 && index < 590
+})
+
+ten.addEventListener('click', () => {
+  ulListDrama.innerHTML = ''
+  tenthArray.forEach(element => {
+    let li = document.createElement("li");
+    // li.className = 'featured__item';
+    li.classList.add("featured__item");
+    li.innerHTML = `
+    <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${element.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${element.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+  <p class="featured__p mb-2"><b>${element.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${element.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${element.categories} </span>
+  <button onclick="moreInfo('${element.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+    `
+  
+  ulListDrama.appendChild(li); 
+  })
+})
+
+
+// nine Page
+let eleven = document.querySelector('.one12')
+
+let elevenArray = movies.filter((movie,index) => {
+  return index >= 600 && index < 630
+})
+
+ten.addEventListener('click', () => {
+  ulListDrama.innerHTML = ''
+  elevenArray.forEach(element => {
+    let li = document.createElement("li");
+    // li.className = 'featured__item';
+    li.classList.add("featured__item");
+    li.innerHTML = `
+    <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${element.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${element.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+  <p class="featured__p mb-2"><b>${element.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${element.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${element.categories} </span>
+  <button onclick="moreInfo('${element.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+    `
+  
+  ulListDrama.appendChild(li); 
+  })
+})
+
+
+
+
+
+let twelev = document.querySelector('.one13')
+
+let twelevArray = movies.filter((movie,index) => {
+  return index >= 640 && index < 660
+})
+
+ten.addEventListener('click', () => {
+  ulListDrama.innerHTML = ''
+  twelevArray.forEach(element => {
+    let li = document.createElement("li");
+    // li.className = 'featured__item';
+    li.classList.add("featured__item");
+    li.innerHTML = `
+    <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${element.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${element.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+  <p class="featured__p mb-2"><b>${element.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${element.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${element.categories} </span>
+  <button onclick="moreInfo('${element.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+    `
+  
+  ulListDrama.appendChild(li); 
+  })
+})
+
+
+let thitheen = document.querySelector('.one14')
+
+let thitheenArray = movies.filter((movie,index) => {
+  return index >= 640 && index < 660
+})
+
+ten.addEventListener('click', () => {
+  ulListDrama.innerHTML = ''
+  thitheenArray.forEach(element => {
+    let li = document.createElement("li");
+    // li.className = 'featured__item';
+    li.classList.add("featured__item");
+    li.innerHTML = `
+    <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${element.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${element.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+  <p class="featured__p mb-2"><b>${element.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${element.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${element.categories} </span>
+  <button onclick="moreInfo('${element.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+    `
+  
+  ulListDrama.appendChild(li); 
+  })
+})
+
+
+
+
+
+let foutheen = document.querySelector('.one15')
+
+let foutheenArray = movies.filter((movie,index) => {
+  return index >= 640 && index < 660
+})
+
+ten.addEventListener('click', () => {
+  ulListDrama.innerHTML = ''
+  foutheenArray.forEach(element => {
+    let li = document.createElement("li");
+    // li.className = 'featured__item';
+    li.classList.add("featured__item");
+    li.innerHTML = `
+    <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${element.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${element.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+  <p class="featured__p mb-2"><b>${element.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${element.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${element.categories} </span>
+  <button onclick="moreInfo('${element.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+    `
+  
+  ulListDrama.appendChild(li); 
+  })
+})
+
+
+
+
+let fiftheen = document.querySelector('.one16')
+
+let fiftheenArray = movies.filter((movie,index) => {
+  return index >= 640 && index < 660
+})
+
+ten.addEventListener('click', () => {
+  ulListDrama.innerHTML = ''
+  fiftheenfoutheenArray.forEach(element => {
+    let li = document.createElement("li");
+    // li.className = 'featured__item';
+    li.classList.add("featured__item");
+    li.innerHTML = `
+    <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${element.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${element.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+  <p class="featured__p mb-2"><b>${element.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${element.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${element.categories} </span>
+  <button onclick="moreInfo('${element.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+    `
+  
+  ulListDrama.appendChild(li); 
+  })
+})
+
+
+
+
 
 
 
@@ -335,3 +1098,6 @@ elIsearch.addEventListener('keyup', (e)=> {
 //         }
 //     })
 // })
+
+
+
