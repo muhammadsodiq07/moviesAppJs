@@ -115,7 +115,7 @@
 .hero-img {
   width: 100% !important;
   height: 100vh !important;
-  object-fit: cover;
+  object-fit: cover !important;
 }
 
 .carousel-caption {
@@ -139,23 +139,81 @@
 }
 
 
-.header__burger {
+.heartWhite {
   position: relative;
-  right: -430px;
+  right: -340px;
+  font-size: 30px;
+  padding: 8px;
+  color: #fff;
+  border-radius: 50%;
+  background-color: #be123c;
 }
 
-.header__btnBurger {
+
+
+
+
+
+#collection{
+  padding-top: 82px;
+}
+
+.collection__entry{
+  margin-bottom: 44px;
+}
+
+.collection__genre{
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 47px;
+  color: #000;
+}
+
+.collection__more{
+  font-size: 18px;
+  line-height: 24px;
+  color: #be123c;
+  margin-right: 8px;
+  border: none;
   background-color: transparent;
 }
 
-.header__burgerImg {
-  width: 37px;
-  height: 37px;
-  object-fit: cover;
+.carousel-indicators{
+  flex-direction: column;
+  align-items: end;
+  top: 0%;
+  right: -130px;
+
+  button{
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 14px;
+    color: #9ca3af;
+    text-align: right;
+    opacity: 1;
+  }
 }
 
+.carousel-indicators [data-bs-target]{
+  width: 0;
+}
 
+.carousel-indicators .active{
+  color: #fff;
+  font-size: 18px;
 
+  &::before{
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 3px;
+    background: #fff;
+    border-radius: 6px;
+    margin-right: 6px;
+    position: relative;
+    top: -4px;
+  }
+}
 
 
 

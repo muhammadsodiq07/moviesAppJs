@@ -50,19 +50,19 @@ p {
   padding: 0 !important;
 }
 
-body::-webkit-scrollbar {
-  width: 5px;
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-body::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-          box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+::-webkit-scrollbar-thumb {
+  background: -webkit-gradient(linear, left top, left bottom, from(transparent), to(indigo));
+  background: linear-gradient(transparent, indigo);
+  border-radius: 6px;
 }
 
-body::-webkit-scrollbar-thumb {
-  background-color: #ff0101;
-  border-radius: 20px;
-  outline: 1px solid slategrey;
+::-webkit-scrollbar-thumb:hover {
+  background: -webkit-gradient(linear, left top, left bottom, from(transparent), to(#BE123C));
+  background: linear-gradient(transparent, #BE123C);
 }
 
 /* VISUALLY-HIDDEN */
@@ -233,8 +233,8 @@ body::-webkit-scrollbar-thumb {
 .hero-img {
   width: 100% !important;
   height: 100vh !important;
-  -o-object-fit: cover;
-     object-fit: cover;
+  -o-object-fit: cover !important;
+     object-fit: cover !important;
 }
 
 .carousel-caption {
@@ -257,20 +257,80 @@ body::-webkit-scrollbar-thumb {
   right: -70px;
 }
 
-.header__burger {
+.heartWhite {
   position: relative;
-  right: -430px;
+  right: -340px;
+  font-size: 30px;
+  padding: 8px;
+  color: #fff;
+  border-radius: 50%;
+  background-color: #be123c;
 }
 
-.header__btnBurger {
+#collection {
+  padding-top: 82px;
+}
+
+.collection__entry {
+  margin-bottom: 44px;
+}
+
+.collection__genre {
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 47px;
+  color: #000;
+}
+
+.collection__more {
+  font-size: 18px;
+  line-height: 24px;
+  color: #be123c;
+  margin-right: 8px;
+  border: none;
   background-color: transparent;
 }
 
-.header__burgerImg {
-  width: 37px;
-  height: 37px;
-  -o-object-fit: cover;
-     object-fit: cover;
+.carousel-indicators {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: end;
+  top: 0%;
+  right: -130px;
+}
+
+.carousel-indicators button {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 14px;
+  color: #9ca3af;
+  text-align: right;
+  opacity: 1;
+}
+
+.carousel-indicators [data-bs-target] {
+  width: 0;
+}
+
+.carousel-indicators .active {
+  color: #fff;
+  font-size: 18px;
+}
+
+.carousel-indicators .active::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 3px;
+  background: #fff;
+  border-radius: 6px;
+  margin-right: 6px;
+  position: relative;
+  top: -4px;
 }
 
 @media screen and (max-width: 930px) {
@@ -473,7 +533,7 @@ body::-webkit-scrollbar-thumb {
 
 .casts__img {
   width: 100%;
-  height: auto;
+  height: 500px;
   -o-object-fit: cover;
      object-fit: cover;
 }
@@ -530,9 +590,41 @@ body::-webkit-scrollbar-thumb {
   padding-top: 20px !important;
 }
 
+.seach__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.search__main {
+  position: relative;
+  top: 100px;
+}
+
+.modalsearch {
+  background: linear-gradient(50deg, white, #cecece);
+  z-index: 100;
+}
+
 .pagination__div {
   padding-top: 30px;
-  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .pagnitons {
@@ -547,10 +639,14 @@ body::-webkit-scrollbar-thumb {
   background-color: #111827;
 }
 
+.dotsss {
+  font-size: 40px;
+}
+
 /* Rest info */
 .rest-info {
   padding: 20px;
-  background: linear-gradient(110deg, #09203f 65%, #537895 70%);
+  background: linear-gradient(110deg, #F8F6F0 65%, #FDF5E6 70%);
   color: #fff;
   position: fixed;
   top: 50%;
@@ -681,6 +777,10 @@ body::-webkit-scrollbar-thumb {
 
 .rest-btns button:hover {
   opacity: .5;
+}
+
+.laegns {
+  font-size: 24px;
 }
 
 a {

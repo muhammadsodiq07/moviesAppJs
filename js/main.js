@@ -6,14 +6,14 @@ const Wishlist = document.getElementById('wishlist');
 const Form = document.getElementById('Form');
 const Search = document.getElementById('SearchInput');
 
-for (let i = 25; i <= 1150; i++) {
+for (let i = 25; i <= 200; i++) {
 
   let li = document.createElement("li");
   li.className = 'swiper-slide featured__item caruserlOne';
   li.innerHTML = `
   <div class="swiper-slide featured__box box222 d-flex flex-column justify-content-center align-items-start">
 <div class="featured__boximg">
-  <button onclick = "Heart('${movies[i].imdbId}')" class="btn featured__btn">
+  <button onclick = "Addwatch('${movies[i].imdbId}')" class="btn featured__btn">
     <i  onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
   </button>
   <img class="featured__img" src=${movies[i].youtubePoster} alt="">
@@ -39,14 +39,14 @@ ulList.appendChild(li);
 }
 
 
-for (let i = 2000; i <= 2031; i++) {
+for (let i = 250; i <= 281; i++) {
 
   let li = document.createElement("li");
   li.className = 'featured__item';
   li.innerHTML = `
   <div class="featured__box d-flex flex-column justify-content-center align-items-start">
 <div class="featured__boximg">
-  <button class="btn featured__btn" onclick = "Heart('${movies[i].imdbId}')">
+  <button class="btn featured__btn" onclick = "Addwatch('${movies[i].imdbId}')">
     <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
   </button>
   <img class="featured__img" src=${movies[i].youtubePoster} alt="">
@@ -122,18 +122,18 @@ function moreInfo(imId) {
 
     <div class="right-rest">
       <div class="rest-rate">
-        <div class="rest-start me-3"><i class="fa fa-star me-2"></i>${newMovie.imdbRating}</div>
-        <div class="rest-year me-3"><i class="fa fa-clock me-2"></i>${newMovie.year}</div>
-        <div class="rest-length">length: ${newMovie.runtime} min</div>
+        <div class="rest-start me-3 text-dark"><i class="fa fa-star me-2"></i>${newMovie.imdbRating}</div>
+        <div class="rest-year me-3 text-dark">year: ${newMovie.year}</div>
+        <div class="text-dark d-flex align-items-center"><i class='bx bx-time-five laegns'></i>:${newMovie.runtime} min</div>
       </div>
 
-      <div class="rest-janr">
+      <div class="rest-janr text-black-50">
         ${newMovie.categories}
       </div>
-      <p class="rest-desc">${newMovie.summary}</p>
+      <p class="rest-desc text-dark">${newMovie.summary}</p>
 
       <div class="rest-btns">
-        <button class="rest-show-btn"><a href=${newMovie.imdbPage}>Show on IMDb</a></button>
+        <button class="rest-show-btn text-dark"><a href=${newMovie.imdbPage}>Show on IMDb</a></button>
         <button class="rest-bookmark">Bookmark</button>
       </div>
     </div>
@@ -153,7 +153,7 @@ function backFunc() {
 
 // WISHLIST PART --------
 
-function Heart(id){
+function Addwatch(id){
   movies.forEach((item,index) =>{
     let li = document.createElement('li');
     if (id == item.imdbId){
@@ -202,10 +202,6 @@ featured__heartIcon.forEach(item => {
 
 
 
-
-
-
-
 // FILTER PART ------
 
 const Title = document.getElementById('MovieTitle');
@@ -244,70 +240,103 @@ function filter(e){
 }
 
 
+// global search
 
 
-const elTopMovies = document.querySelector("#pag__list");
-let tops = [];
+const elSearchBox = document.querySelector('#searchbox');
+const elSearch = document.querySelector('#id-search');
+const elIsearch = document.querySelector('#id-Isearch');
+const elSearchBtn = document.querySelector('#id-searchBtn');
+const elSearchMain = document.querySelector('#search-main');
 
-movies.forEach((item, index) => {
-  let elRating = 8.8;
-  if (item.imdbRating >= elRating) {
-    tops.push(item);
+
+function funMain(e) {
+  let a = e.path[1].id
+  let b = e.path[0].id
+
+  console.log(b)
+
+  if(a == elSearchBox.id || b == elSearchBox.id) {
+    elSearchBox.style.display = 'none !important';
+    elIsearch.value = ""
+    elSearch.innerHTML = ''
+    elbody.style.overflow = 'auto'
   }
-});
-tops.forEach((item, index) => {
-  let li = document.createElement("li");
-    li.className = 'movie__main col-3';
-    li.innerHTML = `
-        <div class="movie__item item">
-        <div class="item__imgbox">
-          <img class="item__img" src="${item.youtubePoster}" alt="movie__img">
-          <div class="movie__btns d-flex align-items-center justify-content-between">
-            <p class="movie__tv text-uppercase mb-0">tv series</p>
-            <button class="movie__btn"><i class='bx bxs-heart' ></i></button>
-          </div>
-        </div>
-        <div class="d-flex align-items-center justify-content-between mb-3">
-          <span class="item__years">USA, ${item.year}</span>
-          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            More
-          </button>
-          <!-- Modal -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">About Movie</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  ${item.summary}
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <h4 class="item__title">${item.title}</h4>
-        <div class="item__box d-flex align-items-center justify-content-between">
-          <div class="d-flex align-items-center">
-            <img class="movie__imdb" src="imgs/imdb.png" alt="imdb">
-          <span class="item__range">${item.runtime}</span>
-          </div>
-          <div class="d-flex align-items-center">
-            <i class='bx bxs-star' style='color:#d8e818'></i>
-            <span class="item__percent">${item.imdbRating}</span>
-          </div>
-        </div>
-        <div>
-          <span class="item__category text-capitalize">${item.categories}</span>
-        </div>
+}
+
+elIsearch.addEventListener("focusin", myFocusFunction);
+
+function myFocusFunction() {
+    elSearchBox.style.display = 'block';
+    elbody.style.overflow = 'hidden'
+}
+
+
+let a = 0
+elIsearch.addEventListener('keyup', (e)=> {
+  elSearch.innerHTML = ''
+  let values = e.target.value.toLowerCase()
+
+  if(!elIsearch.value.trim()) {
+    elSearch.innerHTML = null
+    elIsearch.value = null
+  } else {
+
+  for(let i = 0; i < movies.length; i++) {
+    if(movies[i].title.toLowerCase().indexOf(values) != -1) {
+
+      let li = document.createElement("li");
+      li.className = 'featured__item';
+      li.innerHTML = `
+      <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+    <div class="featured__boximg">
+      <button class="btn featured__btn" onclick = "Addwatch('${movies[i].imdbId}')">
+        <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+      </button>
+      <img class="featured__img" src=${movies[i].youtubePoster} alt="">
+    </div>
+    <span class="featured__span d-block mb-2 text-black-50">USA, 2016 - Current</span> 
+    <p class="featured__p mb-2"><b>${movies[i].title}</b></p> 
+    <div class="retings d-flex align-items-center mb-2">
+      <div class="d-flex align-items-center me-4">
+        <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+      <span class="hero__price reting text-black-50">86.0 / 100</span>
       </div>
-  `;
-    elTopMovies.appendChild(li);
-});
+      <div class="d-flex align-items-center">
+        <i class='bx bxs-star hero__icon me-2' ></i>
+          <span class="hero__stats reting text-black-50">${movies[i].imdbRating}</span>
+      </div>
+    </div>
+    <span class="featured__text text-black-50">${movies[i].categories} </span>
+    <button onclick="moreInfo('${movies[i].imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+    </div>
+      `
+
+      //liga qoshish
+      elSearch.appendChild(li)
+    }
+  }
+}
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -333,4 +362,4 @@ tops.forEach((item, index) => {
 //             item.style.display = 'none'
 //         }
 //     })
-// });
+// })

@@ -48,16 +48,16 @@ p {
   padding: 0 !important;
 }
 
-body::-webkit-scrollbar {
-  width: 5px;
+
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-body::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(transparent, indigo);
+  border-radius: 6px;
 }
 
-body::-webkit-scrollbar-thumb {
-  background-color: rgb(255, 1, 1);
-  border-radius: 20px;
-  outline: 1px solid slategrey;
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(transparent,#BE123C);
 }
