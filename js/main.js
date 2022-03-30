@@ -1088,8 +1088,6 @@ const YearTo = document.getElementById('YearTo');
 let Result = document.getElementById('FilterResult');
 
 
-
-
 // FILTER PART ------
 
 
@@ -1143,7 +1141,6 @@ FilterForm.addEventListener('submit', (e) =>{
   <button onclick="moreInfo('${el.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
   </div>
         `;
-        // id++;
       Result.appendChild(li);
     }
   })
