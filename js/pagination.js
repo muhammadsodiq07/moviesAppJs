@@ -232,3 +232,5 @@
 // ?Pagination Buttons
 
 // let ulListDrama = document.querySelector('.drama__list');
+
+

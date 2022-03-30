@@ -5,13 +5,13 @@ let elModalBnt = document.querySelectorAll(".featured__btn");
 const Wishlist = document.getElementById('wishlist');
 let restInfo = document.querySelector(".rest-info");
 let restInfoBack = document.querySelector(".rest-back");
-const Form = document.getElementById('Form');
+
 const elSearchBox = document.querySelector('#searchbox');
 const elSearch = document.querySelector('#id-search');
 const elIsearch = document.querySelector('#id-Isearch');
 const elSearchBtn = document.querySelector('#id-searchBtn');
 const elSearchMain = document.querySelector('#search-main');
-const Search = document.getElementById('SearchInput');
+const Search = document.getElementById('SearchInput'); 
 const Title = document.getElementById('MovieTitle');
 const secondTitle = document.getElementById('secondTitle');
 const Hero = document.getElementById('hero');
@@ -1075,6 +1075,90 @@ ten.addEventListener('click', () => {
   ulListDrama.appendChild(li); 
   })
 })
+
+
+
+
+
+const FilterForm = document.getElementById('filterForm');
+let Search2 = document.getElementById("SearchInput");
+const select = document.getElementById('selectCategory');
+const YearFrom = document.getElementById('YearFrom');
+const YearTo = document.getElementById('YearTo');
+let Result = document.getElementById('FilterResult');
+
+
+
+
+// FILTER PART ------
+
+
+movies.forEach((item,index) =>{
+  if (index < 10){
+    let cat = item.categories;
+    cat.forEach(el =>{
+      let option = document.createElement('option');
+      option.innerText = el;
+      select.append(option);
+    })
+  }
+})
+
+
+
+
+FilterForm.addEventListener('submit', (e) =>{
+ e.preventDefault();
+ let value = Search2.value.toLowerCase();
+ let from = YearFrom.value;
+ let to = YearTo.value;
+ 
+ Result.innerHTML = '';
+ movies.forEach(el =>{
+   let title = el.title.toLowerCase();
+   if (title.indexOf(value) != -1 && el.year >= from && el.year <= to){
+        let li = document.createElement('li');
+        li.className = 'featured__item';
+        li.innerHTML = `
+        <div class="featured__box d-flex flex-column justify-content-center align-items-start">
+  <div class="featured__boximg">
+    <button class="btn featured__btn" onclick = "Addwatch('${el.imdbId}')">
+      <i onclick = "featured__heartIcon()" class='bx bxs-heart featured__heartIcon'></i>
+    </button>
+    <img class="featured__img" src=${el.youtubePoster} alt="">
+  </div>
+  <span class="featured__span d-block mb-2 text-black-50">${el.year}</span> 
+  <p class="featured__p mb-2"><b>${el.title}</b></p> 
+  <div class="retings d-flex align-items-center mb-2">
+    <div class="d-flex align-items-center me-4">
+      <img class="hero__imgImbd me-2" src="images/imbd.svg" alt="">
+    <span class="hero__price reting text-black-50">86.0 / 100</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <i class='bx bxs-star hero__icon me-2' ></i>
+        <span class="hero__stats reting text-black-50">${el.imdbRating}</span>
+    </div>
+  </div>
+  <span class="featured__text text-black-50">${el.categories} </span>
+  <button onclick="moreInfo('${el.imdbId}')" class="btn btn__summarry mt-3 mb-3">Summary</button>
+  </div>
+        `;
+        // id++;
+      Result.appendChild(li);
+    }
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
 
 
 

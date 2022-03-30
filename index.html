@@ -235,37 +235,24 @@
   <main>
     <section id="featured">
       <div class="container">
+          
+        <form class="pt-5" action="#" id="filterForm">
+          <div class="d-flex filter-wrapper justify-content-between mb-4">
+              <input class="form-control search-input me-2" id="SearchInput" type="search" placeholder="Search Movies" required>
+              <select class="form-select category-select me-2 w-25" id="selectCategory" name="category">
+                <option>All</option>
+              </select>
+    
+              <input class="form-control search-input years me-2" id="YearFrom" type="number" name="number" placeholder="From Year" value="2000" required>
+              <input class="form-control search-input years me-2" id="YearTo" type="number" name="number" placeholder="To Year" value="2018" required>
+              <button class="btn btn-danger">Submit</button>
+            </div>
+          </form>
 
-        
-
-        <div class="form-div pt-5 d-flex align-items-center">
-          <input class="form-control search-input me-5" id="SearchInput" type="search" placeholder="Search Movies">
-
-          <div class="header__categories ms-5">
-            <select class="selectMovie" name="moviesNames" id="categories">
-              <option class="header__options" value="">Marvel</option>
-              <option class="header__options" value="">Drama</option>
-              <option class="header__options" value="">History</option>
-              <option class="header__options" value="">Adventure</option>
-              <option class="header__options" value="">Fantasy</option>
-              <option class="header__options" value="">Thriller</option>
-              <option class="header__options" value="">Dici</option>
-              <option class="header__options" value="">Documentary</option>
-              <option class="header__options" value="">Comedy</option>
-              <option class="header__options" value="">Animation</option>
-              <option class="header__options" value="">Horror</option>
-              <option class="header__options" value="">Family</option>
-              <option class="header__options" value="">Sport</option>
-              <option class="header__options" value="">Romance</option>
-              <option class="header__options" value="">Crime</option>
-              <option class="header__options" value="">Mystery</option>
-              <option class="header__options" value="">Music</option>
-            </select>
-          </div>
-          <div class="year-input ms-3">
-            <input class="year" type="number" name="text" id="year" placeholder="2022">
-          </div>
-        </div>
+          <ul class="hero-drama" id="FilterResult">
+            <li>
+            </li>
+          </ul>
         
       <div id="MovieTitle">
         <div class="featured">
@@ -302,6 +289,7 @@
 
           <ul class="drama__list pt-5">
           </ul>
+
 
           <!-- <div class="pagination__div">
             <button value="1" class="btn pagination__btnOne pagnitons me-1" id="page__one">1</button>
